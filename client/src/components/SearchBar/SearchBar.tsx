@@ -90,26 +90,29 @@ const SearchBar = (props: ComponentProps): JSX.Element => {
       } else if (isLocal) {
         // Local query -> redirect if at least 1 result found
         if (appSearchResult?.length) {
-          redirectUrl(appSearchResult[0].url, sameTab);
+          redirectUrl(appSearchResult[0].url, !sameTab);
         } else if (bookmarkSearchResult?.[0]?.bookmarks?.length) {
-          redirectUrl(bookmarkSearchResult[0].bookmarks[0].url, sameTab);
+          redirectUrl(bookmarkSearchResult[0].bookmarks[0].url, !sameTab);
         } else {
           // no local results -> search the internet with the default search provider
           let template = query.template;
 
           if (query.prefix === 'l') {
             template = 'https://duckduckgo.com/?q=';
+            if process.env.SEARCH_TEMPLATE {
+              template = process.env.SEARCH_TEMPLATE
+            }
           }
 
           const url = `${template}${search}`;
-          redirectUrl(url, sameTab);
+          redirectUrl(url, !sameTab);
         }
       } else {
         // Valid query -> redirect to search results
         const url = `${query.template}${search}`;
         redirectUrl(url, sameTab);
       }
-    } else if (e.code === 'Escape') {
+    } else if (e.code === '/') {
       clearSearch();
     }
   };
