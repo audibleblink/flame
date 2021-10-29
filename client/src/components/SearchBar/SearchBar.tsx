@@ -51,9 +51,10 @@ const SearchBar = (props: ComponentProps): JSX.Element => {
   useEffect(() => {
     const keyOutsideFocus = (e: any) => {
       const { key } = e as KeyboardEvent;
-
-      if (key === 'Escape') {
+      if (key === '/') {
+        e.preventDefault();
         clearSearch();
+        inputRef.current.focus();
       }
     };
 
