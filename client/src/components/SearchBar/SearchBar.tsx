@@ -97,10 +97,9 @@ const SearchBar = (props: ComponentProps): JSX.Element => {
         } else {
           // no local results -> search the internet with the default search provider
           let template = query.template;
-
           if (query.prefix === 'l') {
             template = 'https://duckduckgo.com/?q=';
-            if process.env.SEARCH_TEMPLATE {
+            if (process.env.SEARCH_TEMPLATE) {
               template = process.env.SEARCH_TEMPLATE
             }
           }
